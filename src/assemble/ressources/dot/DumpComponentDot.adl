@@ -1,0 +1,15 @@
+/**
+ * This template ADL defines a generic top-level architecture made of a 
+ * single <code>TopLevel</code> component,to which the @DumpDot annotation is added.
+ * This component is specified from parameter <code>Comp</code>.
+ *   
+ * It will direct <code>mindc</code> to create graphical representation of the
+ * component Comp and its contained sub-component.
+ * Should be used with the --check-adl option.
+ */
+ 
+@Singleton
+@DumpDot
+composite dot.DumpComponentDot<Comp conformsto AnyComponentType> {
+  contains Comp as TopLevel;
+}
