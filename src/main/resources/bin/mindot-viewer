@@ -8,5 +8,5 @@ else
 	MIND_ROOT=$(dirname $(which mindc))
 fi
 
-python $MIND_ROOT/tools/MindViewer/MindViewer.py $*
+python $MIND_ROOT/lib/MindViewer.py $*
 
