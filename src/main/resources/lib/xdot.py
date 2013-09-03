@@ -354,8 +354,9 @@ class Jump(object):
 class Element(CompoundShape):
     """Base class for graph nodes and edges."""
 
-    def __init__(self, shapes):
+    def __init__(self, shapes, url=None):
         CompoundShape.__init__(self, shapes)
+        self.url=url
 
     def get_url(self, x, y):
         return None
@@ -367,7 +368,7 @@ class Element(CompoundShape):
 class Node(Element):
 
     def __init__(self, x, y, w, h, shapes, url, id):
-        Element.__init__(self, shapes)
+        Element.__init__(self, shapes, url)
 
         self.x = x
         self.y = y
@@ -376,8 +377,6 @@ class Node(Element):
         self.y1 = y - 0.5*h
         self.x2 = x + 0.5*w
         self.y2 = y + 0.5*h
-
-        self.url = url
         self.id = id
 
     def is_inside(self, x, y):
@@ -421,10 +420,10 @@ class Edge(Element):
         return None
 
 
-class Graph(Shape):
+class Graph(Element):
 
-    def __init__(self, width=1, height=1, shapes=(), nodes=(), edges=()):
-        Shape.__init__(self)
+    def __init__(self, width=1, height=1, shapes=(), nodes=(), edges=(), url=None):
+        Element.__init__(self,shapes,url)
 
         self.width = width
         self.height = height
@@ -455,7 +454,8 @@ class Graph(Shape):
             url = node.get_url(x, y)
             if url is not None:
                 return url
-        return None
+        return Url(self, self.url)
+        #return None
 
     def get_jump(self, x, y):
         for edge in self.edges:
@@ -1100,6 +1100,7 @@ class XDotParser(DotParser):
         self.edges = []
         self.shapes = []
         self.node_by_name = {}
+        self.url = None
         self.top_graph = True
 
     def handle_graph(self, attrs):
@@ -1122,13 +1123,14 @@ class XDotParser(DotParser):
 
             self.width  = max(xmax - xmin, 1)
             self.height = max(ymax - ymin, 1)
-
             self.top_graph = False
         
         for attr in ("_draw_", "_ldraw_", "_hdraw_", "_tdraw_", "_hldraw_", "_tldraw_"):
             if attr in attrs:
                 parser = XDotAttrParser(self, attrs[attr])
                 self.shapes.extend(parser.parse())
+        if self.url == None:
+            self.url = attrs.get('URL', None)
 
     def handle_node(self, id, attrs):
         try:
@@ -1169,8 +1171,7 @@ class XDotParser(DotParser):
 
     def parse(self):
         DotParser.parse(self)
-
-        return Graph(self.width, self.height, self.shapes, self.nodes, self.edges)
+        return Graph(self.width, self.height, self.shapes, self.nodes, self.edges, self.url)
 
     def parse_node_pos(self, pos):
         x, y = pos.split(",")
