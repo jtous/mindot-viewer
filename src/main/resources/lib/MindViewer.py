@@ -24,7 +24,6 @@ class MyDotWindow(xdot.DotWindow):
 
     def on_url_clicked(self, widget, url, event):
         fileName, fileExtension = os.path.splitext(url)
-        print(os.path.join(self.baseDir, url))
         if fileExtension == ".gv":
             print(os.path.join(self.baseDir, url))
             self.currentComp=url

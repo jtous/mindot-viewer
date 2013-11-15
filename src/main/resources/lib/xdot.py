@@ -1423,7 +1423,7 @@ class DotWidget(gtk.DrawingArea):
         'right-clicked' : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ())
     }
 
-    filter = 'gv'
+    filter = 'dot'
 
     def __init__(self):
         gtk.DrawingArea.__init__(self)
