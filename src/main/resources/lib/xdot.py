@@ -1423,7 +1423,7 @@ class DotWidget(gtk.DrawingArea):
         'right-clicked' : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ())
     }
 
-    filter = 'dot'
+    filter = 'gv'
 
     def __init__(self):
         gtk.DrawingArea.__init__(self)
@@ -1881,7 +1881,8 @@ class DotWindow(gtk.Window):
         chooser.set_default_response(gtk.RESPONSE_OK)
         filter = gtk.FileFilter()
         filter.set_name("Graphviz dot files")
-        filter.add_pattern("*.dot")
+        #filter.add_pattern("*.dot")
+	filter.add_pattern("*.gv")
         chooser.add_filter(filter)
         filter = gtk.FileFilter()
         filter.set_name("All files")

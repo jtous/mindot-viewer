@@ -24,7 +24,8 @@ class MyDotWindow(xdot.DotWindow):
 
     def on_url_clicked(self, widget, url, event):
         fileName, fileExtension = os.path.splitext(url)
-        if fileExtension == ".dot":
+        print(os.path.join(self.baseDir, url))
+        if fileExtension == ".gv":
             print(os.path.join(self.baseDir, url))
             self.currentComp=url
             self.open_file(os.path.join(self.baseDir, url))
@@ -69,7 +70,7 @@ class MyDotWindow(xdot.DotWindow):
             dialog.connect('response', lambda dialog, response: dialog.destroy())
             dialog.run()
             return True
-        self.currentComp=".".join(compPath[0:-2])+".dot"
+        self.currentComp=".".join(compPath[0:-2])+".gv"
         self.open_file(os.path.join(self.baseDir, self.currentComp))
         return True
 
