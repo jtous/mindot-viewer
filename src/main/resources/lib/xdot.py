@@ -495,7 +495,7 @@ class XDotAttrParser:
         return res
 
     def read_number(self):
-        return int(self.read_code())
+        return int(float(self.read_code()))
 
     def read_float(self):
         return float(self.read_code())
@@ -637,6 +637,8 @@ class XDotAttrParser:
                 h = s.read_number()
                 path = s.read_text()
                 self.handle_image(x0, y0, w, h, path)
+            elif op == "t":
+                s.read_number()
             else:
                 sys.stderr.write("unknown xdot opcode '%s'\n" % op)
                 break
